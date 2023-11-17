@@ -1,0 +1,29 @@
+addi s1, zero, 20	# s1 tem o valor de tam
+addi a0, zero, 0 	# a0 tem o endere�o do vetor (0)
+addi a1, s1, 0		# a1 tem o valor de tam		
+addi a2, zero, 1	# a2 tem o primeiro elem da sequencia
+addi a3, zero, 1	# a3 tem o segundo elem da sequencia
+jal fib			# pula para a funcao
+ebreak			# encerra o programa
+
+fib: 
+sw a2, 0(a0)		# guarda 1 no primeiro espa�o do vetor
+sw a3, 4(a0)		# guarda 1 no segundo espa�o do vetor
+addi t1, zero, 2	# int i = 2
+
+for:
+bge t1, a1, fora_for	# sai do for se i >= tam
+slli t2, t1, 2		# t2 = i*4
+add t2, t2, a0	
+
+lw t3, -4(t2)		# carrega o valor de v[i-1]
+lw t4, -8(t2)		# carrega o valor de v[i-2]
+
+add t5, t3, t4		# realiza a soma de v[i-1] e v[i-2]
+sw t5, 0(t2)		# guarda o valor de v[i]
+addi t1, t1, 1		# incrementa 1 em i
+jal x0, for			
+fora_for:
+
+jalr ra, 4		# volta para main
+
